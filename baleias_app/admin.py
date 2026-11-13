@@ -1,25 +1,22 @@
 from django.contrib import admin
-from .models import Insumo, Produto, ItemProduto 
+from .models import Insumo, Produto, ItemProduto, HistoricoCustoInsumo
 
 
 @admin.register(Insumo)
 class InsumoAdmin(admin.ModelAdmin):
+    # Adiciona 'media_custo_historico' na tabela principal
     list_display = (
         'id', 'nome_insumo', 'unidade_de_medida', 'custo', 
-        'quantidade_unitaria', 'preco_unitario', 'quantidade_estoque', 
-        'fornecedor', 'data_cadastro_insumo', 'usuario'
+        'media_custo_historico', 'quantidade_unitaria', 'preco_unitario', 
+        'quantidade_estoque', 'usuario'
     )
-    readonly_fields = ('preco_unitario', 'data_cadastro_insumo')
+    readonly_fields = ('preco_unitario', 'media_custo_historico', 'data_cadastro_insumo')
     exclude = ('usuario',)
-    
-    # OBRIGATÓRIO para o autocomplete funcionar na tabela de Produtos
     search_fields = ('nome_insumo',)
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        if request.user.is_superuser:
-            return qs
-        return qs.filter(usuario=request.user)
+        return qs if request.user.is_superuser else qs.filter(usuario=request.user)
 
     def save_model(self, request, obj, form, change):
         if not change:
@@ -55,3 +52,21 @@ class ProdutoAdmin(admin.ModelAdmin):
             obj.usuario = request.user
         super().save_model(request, obj, form, change)
 
+
+@admin.register(HistoricoCustoInsumo)
+class HistoricoCustoInsumoAdmin(admin.ModelAdmin):
+    list_display = ('id', 'insumo', 'valor_custo', 'data_registro', 'usuario')
+    
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs if request.user.is_superuser else qs.filter(usuario=request.user)
+
+    # Bloqueia criação, edição e exclusão manual para manter a integridade da média
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False

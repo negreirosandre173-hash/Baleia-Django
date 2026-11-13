@@ -1,0 +1,339 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Cadastrar Insumo - BaleiaEstoque{% endblock %}
+
+{% block extra_css %}
+<style>
+    .breadcrumb {
+        font-size: 13px;
+        color: #64748B;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .page-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .header-icon {
+        width: 44px;
+        height: 44px;
+        background-color: #1E3A8A;
+        color: #FFFFFF;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .page-header h1 {
+        font-size: 24px;
+        color: #0F172A;
+        font-weight: 700;
+    }
+
+    .page-header p {
+        font-size: 14px;
+        color: #64748B;
+    }
+
+    .alert-success {
+        background-color: #DCFCE7;
+        border: 1px solid #86EFAC;
+        color: #166534;
+        padding: 14px 18px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .form-card {
+        background-color: #FFFFFF;
+        border-radius: 16px;
+        padding: 32px;
+        box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+        display: flex;
+        gap: 40px;
+        align-items: flex-start;
+    }
+
+    /* Coluna Esquerda dentro do Card */
+    .card-illustration {
+        width: 240px;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding-top: 20px;
+    }
+
+    .illustration-box {
+        width: 300px;
+        height: 200px;
+        border-radius: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 72px;
+        margin-bottom: 0px;
+    }
+
+    .info-tip {
+        background-color: #F8FAFC;
+        border: 1px solid #E2E8F0;
+        border-radius: 12px;
+        padding: 14px;
+        font-size: 12px;
+        color: #475569;
+        line-height: 1.5;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        text-align: left;
+    }
+
+    /* Coluna do Formulário à Direita */
+    .form-fields {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+    }
+
+    .form-row-3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 18px;
+    }
+
+    .field-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .field-group label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #334155;
+    }
+
+    .field-group label span.req {
+        color: #DC2626;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 11px 14px;
+        border: 1px solid #CBD5E1;
+        border-radius: 8px;
+        font-size: 14px;
+        color: #1E293B;
+        background-color: #FFFFFF;
+        outline: none;
+        transition: border-color 0.2s;
+    }
+
+    input:focus, select:focus {
+        border-color: #1E3A8A;
+        box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+    }
+
+    input[readonly] {
+        background-color: #F1F5F9;
+        color: #64748B;
+        font-weight: 600;
+        cursor: not-allowed;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        margin-top: 12px;
+        padding-top: 20px;
+        border-top: 1px solid #E2E8F0;
+    }
+
+    .btn-clear {
+        padding: 11px 22px;
+        background-color: #FFFFFF;
+        border: 1px solid #CBD5E1;
+        color: #475569;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .btn-clear:hover {
+        background-color: #F8FAFC;
+    }
+
+    .btn-save {
+        padding: 11px 24px;
+        background-color: #1E3A8A;
+        border: none;
+        color: #FFFFFF;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-save:hover {
+        background-color: #172554;
+    }
+
+    @media (max-width: 900px) {
+        .form-card { flex-direction: column; }
+        .card-illustration { width: 100%; }
+        .form-row, .form-row-3 { grid-template-columns: 1fr; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <div class="header-icon">
+            <svg xmlns="http://w3.org" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"/><path d="M12 5v14"/>
+    </svg>
+        </div>
+        <div>
+            <h1>Cadastrar Insumo</h1>
+            <p>Adicione um novo insumo ao seu estoque</p>
+        </div>
+    </div>
+
+    {% if sucesso %}
+        <div class="alert-success">
+             {{ sucesso }}
+        </div>
+    {% endif %}
+
+    <div class="form-card">
+        <!-- Ilustração Lateral -->
+        <div class="card-illustration">
+            <div class="illustration-box">
+                <div class="illustration-box">
+                    <img src="{% static 'img/caixa.png' %}" alt="Ilustração de Insumos" style="width: 100%; height: 100%; object-fit: contain; padding: 0px;">
+                </div>
+            </div>
+            <div class="info-tip">
+                <span></span>
+                <span>Mantenha seu estoque sempre atualizado para um melhor controle de custos.</span>
+            </div>
+        </div>
+
+        <!-- Formulário Conectado ao Banco -->
+        <form method="POST" class="form-fields" id="formInsumo">
+            {% csrf_token %}
+
+            <div class="field-group">
+                <label>Nome do Insumo <span class="req">*</span></label>
+                <input type="text" name="nome_insumo" placeholder="Ex: Arroz Tipo 1" required>
+            </div>
+
+            <div class="form-row">
+                <div class="field-group">
+                    <label>Unidade de Medida <span class="req">*</span></label>
+                    <select name="unidade_de_medida" required>
+                        <option value="" disabled selected>Selecione a unidade</option>
+                        <option value="G">G (Gramas)</option>
+                        <option value="ML">ML (Mililitros)</option>
+                        <option value="UNID">UNID (Unidade)</option>
+                    </select>
+                </div>
+
+                <div class="field-group">
+                    <label>Quantidade em Estoque <span class="req">*</span></label>
+                    <input type="number" step="0.001" name="quantidade_estoque" value="0" required>
+                </div>
+            </div>
+
+            <div class="form-row-3">
+                <div class="field-group">
+                    <label>Custo Total (R$) <span class="req">*</span></label>
+                    <input type="number" step="0.01" name="custo" id="inputCusto" placeholder="0.00" required>
+                </div>
+
+                <div class="field-group">
+                    <label>Quantidade Unitária <span class="req">*</span></label>
+                    <input type="number" step="0.001" name="quantidade_unitaria" id="inputQtd" placeholder="Ex: 1000" required>
+                </div>
+
+                <div class="field-group">
+                    <label>Preço Unitário (Automático)</label>
+                    <input type="text" id="previewPrecoUnitario" value="R$ 0,0000" readonly>
+                </div>
+            </div>
+
+            <div class="form-row-3">
+                <div class="field-group">
+                    <label>Fornecedor (opcional)</label>
+                    <input type="text" name="fornecedor" placeholder="Nome do fornecedor">
+                </div>
+
+                <div class="field-group">
+                    <label>Telefone (opcional)</label>
+                    <input type="text" name="telefone" placeholder="(00) 00000-0000">
+                </div>
+
+                <div class="field-group">
+                    <label>E-mail (opcional)</label>
+                    <input type="email" name="email" placeholder="contato@fornecedor.com">
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="reset" class="btn-clear" onclick="document.getElementById('previewPrecoUnitario').value='R$ 0,0000'">
+                     Limpar
+                </button>
+                <button type="submit" class="btn-save">
+                     Salvar Insumo
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Script para mostrar a prévia do cálculo na tela -->
+    <script>
+        const inputCusto = document.getElementById('inputCusto');
+        const inputQtd = document.getElementById('inputQtd');
+        const preview = document.getElementById('previewPrecoUnitario');
+
+        function atualizarPreview() {
+            const custo = parseFloat(inputCusto.value) || 0;
+            const qtd = parseFloat(inputQtd.value) || 0;
+            if (qtd > 0) {
+                const unitario = (custo / qtd).toFixed(4).replace('.', ',');
+                preview.value = 'R$ ' + unitario;
+            } else {
+                preview.value = 'R$ 0,0000';
+            }
+        }
+
+        inputCusto.addEventListener('input', atualizarPreview);
+        inputQtd.addEventListener('input', atualizarPreview);
+    </script>
+{% endblock %}
