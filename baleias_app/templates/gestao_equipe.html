@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Setores e Equipe - BaleiaEstoque{% endblock %}
+
+{% block content %}
+<h1 style="margin-bottom: 20px; color: #0F172A;">👥 Setores de Estoque e Responsáveis</h1>
+
+{% if mensagem %}<div style="background:#DCFCE7; color:#166534; padding:12px; border-radius:8px; margin-bottom:20px;">✅ {{ mensagem }}</div>{% endif %}
+{% if erro %}<div style="background:#FEE2E2; color:#991B1B; padding:12px; border-radius:8px; margin-bottom:20px;">⚠️ {{ erro }}</div>{% endif %}
+
+<div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 24px;">
+    <div style="background:#FFF; padding:24px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+        <h3 style="margin-bottom:15px; color:#1E3A8A;">1. Criar Responsável (Funcionário)</h3>
+        <form method="POST" style="display:flex; flex-direction:column; gap:12px;">
+            {% csrf_token %}
+            <input type="hidden" name="acao" value="criar_usuario">
+            <input type="text" name="novo_username" placeholder="Usuário (Ex: barman_manha)" required style="padding:10px; border:1px solid #CBD5E1; border-radius:8px;">
+            <input type="password" name="nova_senha" placeholder="Senha" required style="padding:10px; border:1px solid #CBD5E1; border-radius:8px;">
+            <button type="submit" style="background:#1E3A8A; color:#FFF; padding:12px; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Criar Acesso</button>
+        </form>
+    </div>
+
+    <div style="background:#FFF; padding:24px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+        <h3 style="margin-bottom:15px; color:#1E3A8A;">2. Criar Setor de Estoque e Vincular Insumos</h3>
+        <form method="POST" style="display:flex; flex-direction:column; gap:12px;">
+            {% csrf_token %}
+            <input type="hidden" name="acao" value="criar_setor">
+            <input type="text" name="nome_setor" placeholder="Nome do Setor (Ex: Estoque Bar, Cozinha)" required style="padding:10px; border:1px solid #CBD5E1; border-radius:8px;">
+            <select name="responsavel_id" required style="padding:10px; border:1px solid #CBD5E1; border-radius:8px;">
+                <option value="" disabled selected>Selecione o Responsável pela Contagem</option>
+                {% for func in funcionarios %}<option value="{{ func.id }}">{{ func.username }}</option>{% endfor %}
+            </select>
+            <label style="font-size:13px; font-weight:bold;">Selecione os insumos controlados neste setor:</label>
+            <div style="max-height:160px; overflow-y:auto; border:1px solid #E2E8F0; padding:10px; border-radius:8px; display:flex; flex-direction:column; gap:8px;">
+                {% for insumo in insumos %}
+                    <label style="display:flex; align-items:center; gap:8px; font-size:14px; cursor:pointer;">
+                        <input type="checkbox" name="insumos_selecionados" value="{{ insumo.id }}">
+                        {{ insumo.nome_insumo }} ({{ insumo.unidade_de_medida }})
+                    </label>
+                {% endfor %}
+            </div>
+            <button type="submit" style="background:#16A34A; color:#FFF; padding:12px; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Criar Setor</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

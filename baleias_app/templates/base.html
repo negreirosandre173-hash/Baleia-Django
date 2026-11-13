@@ -20,7 +20,6 @@
             color: #1E293B;
         }
 
-        /* --- BARRA LATERAL (SIDEBAR) --- */
         .sidebar {
             width: 250px;
             background-color: #1E3A8A;
@@ -146,7 +145,6 @@
             opacity: 0.7;
         }
 
-        /* --- ÁREA PRINCIPAL (DIREITA) --- */
         .main-wrapper {
             flex: 1;
             display: flex;
@@ -202,7 +200,6 @@
 </head>
 <body>
 
-    <!-- BARRA LATERAL -->
     <aside class="sidebar">
         <div>
             <div class="sidebar-brand">
@@ -211,17 +208,20 @@
             </div>
 
             <nav class="nav-menu">
-                <a href="{% url 'home' %}" class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
-                    <span></span> Dashboard
+                <a href="{% url 'estoque_principal' %}" class="nav-item {% if request.resolver_match.url_name == 'estoque_principal' %}active{% endif %}">
+                    <span>🏢</span> Estoque Principal
                 </a>
                 <a href="{% url 'cadastrar_insumo' %}" class="nav-item {% if request.resolver_match.url_name == 'cadastrar_insumo' %}active{% endif %}">
-                    <span></span> Cadastrar Insumo
+                    <span>📦</span> Cadastrar Insumo
+                </a>
+                <a href="{% url 'gestao_equipe' %}" class="nav-item {% if request.resolver_match.url_name == 'gestao_equipe' %}active{% endif %}">
+                    <span>👥</span> Setores e Equipe
                 </a>
                 <a href="#" class="nav-item">
-                    <span></span> Produtos / Receitas
+                    <span>🍲</span> Produtos / Receitas
                 </a>
                 <a href="#" class="nav-item">
-                    <span></span> Histórico de Custos
+                    <span>📊</span> Dashboard Analítico
                 </a>
             </nav>
         </div>
@@ -238,15 +238,14 @@
         </div>
     </aside>
 
-    <!-- CONTEÚDO DIREITO -->
     <div class="main-wrapper">
         <header class="topbar">
             <div class="topbar-left">
-                Sistema de Gestão de Insumos e Custos
+                Sistema de Gestão de Insumos, Setores e Custos
             </div>
             <div class="topbar-right">
                 <a href="{% url 'logout' %}" class="logout-btn" title="Sair do Sistema">
-                     Sair
+                    🚪 Sair
                 </a>
             </div>
         </header>

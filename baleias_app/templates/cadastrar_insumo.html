@@ -66,7 +66,6 @@
         align-items: flex-start;
     }
 
-    /* Coluna Esquerda dentro do Card */
     .card-illustration {
         width: 240px;
         flex-shrink: 0;
@@ -78,14 +77,16 @@
     }
 
     .illustration-box {
-        width: 300px;
-        height: 200px;
+        width: 160px;
+        height: 160px;
+        background-color: #EFF6FF;
         border-radius: 24px;
         display: flex;
         justify-content: center;
         align-items: center;
         font-size: 72px;
-        margin-bottom: 0px;
+        margin-bottom: 24px;
+        overflow: hidden;
     }
 
     .info-tip {
@@ -102,7 +103,6 @@
         text-align: left;
     }
 
-    /* Coluna do Formulário à Direita */
     .form-fields {
         flex: 1;
         display: flex;
@@ -213,48 +213,42 @@
 {% endblock %}
 
 {% block content %}
+    <div class="breadcrumb">
+        🏠 &rsaquo; Insumos &rsaquo; <strong>Cadastrar</strong>
+    </div>
+
     <div class="page-header">
-        <div class="header-icon">
-            <svg xmlns="http://w3.org" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14"/><path d="M12 5v14"/>
-    </svg>
-        </div>
+        <div class="header-icon">+</div>
         <div>
             <h1>Cadastrar Insumo</h1>
-            <p>Adicione um novo insumo ao seu estoque</p>
+            <p>Adicione um novo insumo ao catálogo do sistema</p>
         </div>
     </div>
 
     {% if sucesso %}
         <div class="alert-success">
-             {{ sucesso }}
+            ✅ {{ sucesso }}
         </div>
     {% endif %}
 
     <div class="form-card">
-        <!-- Ilustração Lateral -->
         <div class="card-illustration">
-            <div class="illustration-box">
-                <div class="illustration-box">
-                    <img src="{% static 'img/caixa.png' %}" alt="Ilustração de Insumos" style="width: 100%; height: 100%; object-fit: contain; padding: 0px;">
-                </div>
-            </div>
+            <div class="illustration-box">📋</div>
             <div class="info-tip">
-                <span></span>
-                <span>Mantenha seu estoque sempre atualizado para um melhor controle de custos.</span>
+                <span>ℹ️</span>
+                <span>Após cadastrar o insumo aqui, lance a quantidade inicial dele na aba <strong>Estoque Principal</strong>.</span>
             </div>
         </div>
 
-        <!-- Formulário Conectado ao Banco -->
         <form method="POST" class="form-fields" id="formInsumo">
             {% csrf_token %}
 
-            <div class="field-group">
-                <label>Nome do Insumo <span class="req">*</span></label>
-                <input type="text" name="nome_insumo" placeholder="Ex: Arroz Tipo 1" required>
-            </div>
-
             <div class="form-row">
+                <div class="field-group">
+                    <label>Nome do Insumo <span class="req">*</span></label>
+                    <input type="text" name="nome_insumo" placeholder="Ex: Coca-Cola Lata" required>
+                </div>
+
                 <div class="field-group">
                     <label>Unidade de Medida <span class="req">*</span></label>
                     <select name="unidade_de_medida" required>
@@ -263,11 +257,6 @@
                         <option value="ML">ML (Mililitros)</option>
                         <option value="UNID">UNID (Unidade)</option>
                     </select>
-                </div>
-
-                <div class="field-group">
-                    <label>Quantidade em Estoque <span class="req">*</span></label>
-                    <input type="number" step="0.001" name="quantidade_estoque" value="0" required>
                 </div>
             </div>
 
@@ -279,7 +268,7 @@
 
                 <div class="field-group">
                     <label>Quantidade Unitária <span class="req">*</span></label>
-                    <input type="number" step="0.001" name="quantidade_unitaria" id="inputQtd" placeholder="Ex: 1000" required>
+                    <input type="number" step="0.001" name="quantidade_unitaria" id="inputQtd" placeholder="Ex: 12" required>
                 </div>
 
                 <div class="field-group">
@@ -307,16 +296,15 @@
 
             <div class="form-actions">
                 <button type="reset" class="btn-clear" onclick="document.getElementById('previewPrecoUnitario').value='R$ 0,0000'">
-                     Limpar
+                    🔄 Limpar
                 </button>
                 <button type="submit" class="btn-save">
-                     Salvar Insumo
+                    💾 Salvar Insumo
                 </button>
             </div>
         </form>
     </div>
 
-    <!-- Script para mostrar a prévia do cálculo na tela -->
     <script>
         const inputCusto = document.getElementById('inputCusto');
         const inputQtd = document.getElementById('inputQtd');
